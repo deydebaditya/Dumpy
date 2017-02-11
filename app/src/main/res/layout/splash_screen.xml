@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="#FFF000"
-    android:background="#FFF000">
+    android:background="@drawable/gradient">
 
     <ImageView
         android:layout_width="100dp"
@@ -11,15 +10,14 @@
         android:id="@+id/splash_logo"
         android:src="@mipmap/ic_launcher"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
+        android:layout_centerHorizontal="true"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Simplifying Dumpyness"
+        android:text="SIMPLIFYING DUMPYNESS"
         android:textSize="30dp"
-        android:fontFamily="sans-serif-smallcaps"
+        android:fontFamily="serif-monospace"
         android:textStyle="bold"
         android:textAlignment="center"
         android:layout_centerInParent="true"
