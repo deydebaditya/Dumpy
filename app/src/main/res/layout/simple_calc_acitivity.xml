@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.debashubham.dumpy.MainActivity"
+    tools:context="com.debashubham.dumpy.SimpleCalcActivity"
     android:background="@drawable/gradient">
 
     <android.support.design.widget.AppBarLayout
@@ -14,30 +14,36 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbar_simplecalc"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             android:elevation="40dp"
             app:popupTheme="@style/AppTheme.PopupOverlay" >
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher"
-            android:padding="5dp"/>
-        </android.support.v7.widget.Toolbar>
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/back_button"
+                android:id="@+id/back_button_simple_calc"/>
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_launcher"
+                android:padding="5dp"/>
+        </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main" />
-
+    <include layout="@layout/content_simple_calc" />
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/fab_accept_simple_values"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_dialog_email" />
+        android:layout_gravity="bottom|center"
+        app:fabSize="normal"
+        android:layout_margin="40dp"
+        android:src="@android:drawable/ic_media_play" />
+
 
 </android.support.design.widget.CoordinatorLayout>

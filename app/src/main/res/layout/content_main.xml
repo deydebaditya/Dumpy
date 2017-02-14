@@ -13,4 +13,35 @@
     tools:showIn="@layout/activity_main"
     android:id="@+id/main_layout">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="SELECT THE CALCULATOR"
+        android:id="@+id/calculator_select"
+        android:layout_alignParentTop="true"
+        android:fontFamily="serif-monospace"
+        android:textStyle="bold"
+        android:textSize="25dp"
+        android:singleLine="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SIMPLE"
+        android:id="@+id/simple_calc"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/calculator_select"
+        android:layout_alignStart="@+id/calculator_select" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CHAINAGE"
+        android:id="@+id/chainage_calc"
+        android:layout_alignTop="@+id/simple_calc"
+        android:layout_alignRight="@+id/calculator_select"
+        android:layout_alignEnd="@+id/calculator_select" />
 </RelativeLayout>
