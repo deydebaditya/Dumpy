@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/saved_pdf_activity">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SAVED PDFs"
+        android:textSize="45dp"
+        android:textColor="#ffffff"
+        android:layout_marginTop="72dp"
+        android:fontFamily="sans-serif-condensed"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:id="@+id/saved_pdf_text"/>
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_saved_pdfs"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="7dp"
+        tools:listheader="Filename:"
+        android:layout_below="@+id/saved_pdf_text"
+        android:nestedScrollingEnabled="true"
+        android:headerDividersEnabled="true"/>
+
+</RelativeLayout>

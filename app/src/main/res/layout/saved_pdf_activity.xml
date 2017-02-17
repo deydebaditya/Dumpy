@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.debashubham.dumpy.SimpleCalcActivity"
+    tools:context="com.debashubham.dumpy.SavedPDFActivity"
     android:background="@drawable/gradient">
 
     <android.support.design.widget.AppBarLayout
@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_simplecalc"
+            android:id="@+id/toolbar_savedpdf"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -25,7 +25,7 @@
                 android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:src="@drawable/back_button"
-                android:id="@+id/back_button_simple_calc"/>
+                android:id="@+id/back_button_saved_pdf"/>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -36,15 +36,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_simple_calc" />
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_accept_simple_values"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        app:fabSize="normal"
-        android:layout_margin="40dp"
-        android:src="@android:drawable/ic_media_play" />
-
+    <include layout="@layout/content_saved_pdf" />
 
 </android.support.design.widget.CoordinatorLayout>
