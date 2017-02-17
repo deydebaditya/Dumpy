@@ -16,12 +16,4 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-    <style name="Button">
-        <item name="android:textColor">#ffffff</item>
-        <item name="android:padding">0dp</item>
-        <item name="android:minWidth">140dp</item>
-        <item name="android:minHeight">45dp</item>
-        <item name="android:layout_margin">3dp</item>
-        <item name="android:background">@drawable/primary_round</item>
-    </style>
 </resources>
