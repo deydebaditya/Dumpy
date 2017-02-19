@@ -12,9 +12,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,15 +40,18 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 /**
- * Created by deba on 12/2/17.
+ * Created by deba on 19/2/17.
  */
-public class SimpleCalcActivity extends AppCompatActivity {
+public class ChainageCalcActivity extends AppCompatActivity {
 
+    Spinner chain_lcr,chain_points;
     ImageView back_button;
     EditText bs,rl,is,fs;
     TextView hi;
@@ -57,6 +62,7 @@ public class SimpleCalcActivity extends AppCompatActivity {
     HashMap<Integer,Double> fs_list;
     HashMap<Integer,Double> hi_list;
     HashMap<Integer,String> remarks_list;
+    HashMap<Integer,String> left,center,right;
     FloatingActionButton accept;
     String remarks="";
     int c=0,counter=0,store_hi_counter=0,change_point_count=0;
@@ -80,18 +86,42 @@ public class SimpleCalcActivity extends AppCompatActivity {
     private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12,
             Font.BOLD);
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.simple_calc_acitivity);
-        back_button=(ImageView)findViewById(R.id.back_button_simple_calc);
+        setContentView(R.layout.chainage_calc_activity);
 
-        bs=(EditText)findViewById(R.id.BS);
-        rl=(EditText)findViewById(R.id.RL);
-        is=(EditText)findViewById(R.id.IS);
-        fs=(EditText)findViewById(R.id.FS);
-        hi=(TextView)findViewById(R.id.HI);
+        chain_lcr=(Spinner)findViewById(R.id.spinner_LCR);
+        chain_points=(Spinner)findViewById(R.id.spinner_chain_points);
+
+        ArrayAdapter<String> adapter;
+        List<String> list;
+
+        list = new ArrayList<String>();
+        list.add("L");
+        list.add("C");
+        list.add("R");
+        adapter = new ArrayAdapter<String>(getApplicationContext(),
+                R.layout.spinner_item, list);
+        adapter.setDropDownViewResource(R.layout.spinner_item);
+        chain_lcr.setAdapter(adapter);
+
+        list = new ArrayList<String>();
+        for(int i=1;i<=60;i++) {
+            list.add(String.valueOf(i));
+        }
+        adapter = new ArrayAdapter<String>(getApplicationContext(),
+                R.layout.spinner_item, list);
+        adapter.setDropDownViewResource(R.layout.spinner_item);
+        chain_points.setAdapter(adapter);
+
+        back_button=(ImageView)findViewById(R.id.back_button_chainage_calc);
+
+        bs=(EditText)findViewById(R.id.BS_chain);
+        rl=(EditText)findViewById(R.id.RL_chain);
+        is=(EditText)findViewById(R.id.IS_chain);
+        fs=(EditText)findViewById(R.id.FS_chain);
+        hi=(TextView)findViewById(R.id.HI_chain);
 
         document=new Document();
         introduction=getSharedPreferences("introduction",MODE_PRIVATE);
@@ -111,14 +141,14 @@ public class SimpleCalcActivity extends AppCompatActivity {
             Log.e("File:","Dumpy Directory already exists!");
         }
 
-        bs_input=(Button)findViewById(R.id.button_BS);
-        rl_input=(Button)findViewById(R.id.button_RL);
-        is_input=(Button)findViewById(R.id.button_IS);
-        fs_input=(Button)findViewById(R.id.button_FS);
-        clear_button=(Button)findViewById(R.id.clear_button);
+        bs_input=(Button)findViewById(R.id.button_BS_chain);
+        rl_input=(Button)findViewById(R.id.button_RL_chain);
+        is_input=(Button)findViewById(R.id.button_IS_chain);
+        fs_input=(Button)findViewById(R.id.button_FS_chain);
+        clear_button=(Button)findViewById(R.id.clear_button_chain);
 
 
-        accept=(FloatingActionButton)findViewById(R.id.fab_accept_simple_values);
+        accept=(FloatingActionButton)findViewById(R.id.fab_accept_chainage_values);
 
         rl.setEnabled(false);
         is.setEnabled(false);
@@ -134,6 +164,9 @@ public class SimpleCalcActivity extends AppCompatActivity {
         fs_list=new HashMap<>();
         hi_list=new HashMap<>();
         remarks_list=new HashMap<>();
+        left=new HashMap<>();
+        center=new HashMap<>();
+        right=new HashMap<>();
 
         clear_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,6 +176,9 @@ public class SimpleCalcActivity extends AppCompatActivity {
                 is_list.clear();
                 fs_list.clear();
                 hi_list.clear();
+                left.clear();
+                right.clear();
+                center.clear();
                 remarks_list.clear();
                 rl.setEnabled(false);
                 is.setEnabled(false);
@@ -177,6 +213,15 @@ public class SimpleCalcActivity extends AppCompatActivity {
                     fs_input.setEnabled(true);
                     fs.setEnabled(true);
                     bs_list.put(counter,Double.parseDouble(bs.getText().toString()));
+
+                    if(chain_lcr.getSelectedItem().toString().equals("L"))
+                        left.put(counter,chain_points.getSelectedItem().toString());
+                    else if(chain_lcr.getSelectedItem().toString().equals("C"))
+                        center.put(counter,chain_points.getSelectedItem().toString());
+                    else
+                        right.put(counter,chain_points.getSelectedItem().toString());
+                    chain_points.setEnabled(true);
+                    chain_lcr.setEnabled(true);
                 }
                 bs.setText("");
                 bs.setEnabled(false);
@@ -185,6 +230,14 @@ public class SimpleCalcActivity extends AppCompatActivity {
                     hi_list.put(counter,(Math.round((bs_list.get(counter) + rl_list.get(counter))*1000.0)/1000.0));
                     store_hi_counter=counter;
                     hi.setText(hi_list.get(counter).toString());
+                    if(chain_lcr.getSelectedItem().toString().equals("L"))
+                        left.put(counter,chain_points.getSelectedItem().toString());
+                    else if(chain_lcr.getSelectedItem().toString().equals("C"))
+                        center.put(counter,chain_points.getSelectedItem().toString());
+                    else
+                        right.put(counter,chain_points.getSelectedItem().toString());
+                    chain_lcr.setEnabled(true);
+                    chain_points.setEnabled(true);
                 }
                 Toast.makeText(getApplicationContext(),"BS entered!",Toast.LENGTH_SHORT).show();
             }
@@ -220,6 +273,12 @@ public class SimpleCalcActivity extends AppCompatActivity {
                 is.setText("");
 
                 rl_list.put(counter,Math.round((hi_list.get(store_hi_counter)-is_list.get(counter))*1000.0)/1000.0);
+                if(chain_lcr.getSelectedItem().toString().equals("L"))
+                    left.put(counter,chain_points.getSelectedItem().toString());
+                else if(chain_lcr.getSelectedItem().toString().equals("C"))
+                    center.put(counter,chain_points.getSelectedItem().toString());
+                else
+                    right.put(counter,chain_points.getSelectedItem().toString());
                 Toast.makeText(getApplicationContext(),"IS entered!",Toast.LENGTH_SHORT).show();
             }
         });
@@ -240,17 +299,24 @@ public class SimpleCalcActivity extends AppCompatActivity {
                 fs.setEnabled(false);
                 fs_input.setEnabled(false);
                 accept.setEnabled(true);
+                chain_lcr.setEnabled(false);
+                chain_points.setEnabled(false);
 
                 rl_list.put(counter,Math.round((hi_list.get(store_hi_counter)-fs_list.get(counter))*1000.0)/1000.0);
                 Toast.makeText(getApplicationContext(),"FS entered!",Toast.LENGTH_SHORT).show();
             }
         });
-
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 remarks="Last Station";
                 remarks_list.put(counter,remarks);
+                if(chain_lcr.getSelectedItem().toString().equals("L"))
+                    left.put(counter,chain_points.getSelectedItem().toString());
+                else if(chain_lcr.getSelectedItem().toString().equals("C"))
+                    center.put(counter,chain_points.getSelectedItem().toString());
+                else
+                    right.put(counter,chain_points.getSelectedItem().toString());
                 Toast.makeText(getApplicationContext(),"Values accepted!",Toast.LENGTH_SHORT).show();
                 Log.e("BS:",bs_list.toString());
                 Log.e("IS:",is_list.toString());
@@ -258,6 +324,9 @@ public class SimpleCalcActivity extends AppCompatActivity {
                 Log.e("HI:",hi_list.toString());
                 Log.e("RL:",rl_list.toString());
                 Log.e("Remarks:",remarks_list.toString());
+                Log.e("Chaining Left:",left.toString());
+                Log.e("Chaining Center:",center.toString());
+                Log.e("Chaining Right:",right.toString());
                 accept.setEnabled(false);
 
 
@@ -303,7 +372,6 @@ public class SimpleCalcActivity extends AppCompatActivity {
                 }
             }
         });
-
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -374,24 +442,34 @@ public class SimpleCalcActivity extends AppCompatActivity {
         document.add(catPart);
     }
 
-    private void createTable(Section subCatPart)throws BadElementException{
-        PdfPTable entry_table=new PdfPTable(7);
+    private void createTable(Section subCatPart) throws DocumentException {
+        PdfPTable entry_table=new PdfPTable(10);
         entry_table.setWidthPercentage(100);
+//        entry_table.setWidths(new float[]{0.25f,0.5f,0.5f,0.5f,0.5f,0.5f,0.5f,0.5f,0.5f,1.0f});
         PdfPCell id=new PdfPCell(new Phrase("Station Point"));
-            id.setHorizontalAlignment(Element.ALIGN_CENTER);
+        id.setHorizontalAlignment(Element.ALIGN_CENTER);
+        PdfPCell left_row=new PdfPCell(new Phrase("Left"));
+        left_row.setHorizontalAlignment(Element.ALIGN_CENTER);
+        PdfPCell center_row=new PdfPCell(new Phrase("Center"));
+        center_row.setHorizontalAlignment(Element.ALIGN_CENTER);
+        PdfPCell right_row=new PdfPCell(new Phrase("Right"));
+        right_row.setHorizontalAlignment(Element.ALIGN_CENTER);
         PdfPCell bs=new PdfPCell(new Phrase("BS"));
-            bs.setHorizontalAlignment(Element.ALIGN_CENTER);
+        bs.setHorizontalAlignment(Element.ALIGN_CENTER);
         PdfPCell is=new PdfPCell(new Phrase("IS"));
-            is.setHorizontalAlignment(Element.ALIGN_CENTER);
+        is.setHorizontalAlignment(Element.ALIGN_CENTER);
         PdfPCell fs=new PdfPCell(new Phrase("FS"));
-            fs.setHorizontalAlignment(Element.ALIGN_CENTER);
+        fs.setHorizontalAlignment(Element.ALIGN_CENTER);
         PdfPCell hi=new PdfPCell(new Phrase("HI"));
-            hi.setHorizontalAlignment(Element.ALIGN_CENTER);
+        hi.setHorizontalAlignment(Element.ALIGN_CENTER);
         PdfPCell rl=new PdfPCell(new Phrase("RL"));
-            rl.setHorizontalAlignment(Element.ALIGN_CENTER);
+        rl.setHorizontalAlignment(Element.ALIGN_CENTER);
         PdfPCell remarks=new PdfPCell(new Phrase("REMARKS"));
-            remarks.setHorizontalAlignment(Element.ALIGN_CENTER);
+        remarks.setHorizontalAlignment(Element.ALIGN_CENTER);
         entry_table.addCell(id);
+        entry_table.addCell(left_row);
+        entry_table.addCell(center_row);
+        entry_table.addCell(right_row);
         entry_table.addCell(bs);
         entry_table.addCell(is);
         entry_table.addCell(fs);
@@ -412,6 +490,27 @@ public class SimpleCalcActivity extends AppCompatActivity {
                 first_rl=rl_list.get(i);
             if(i==largest)
                 last_rl=rl_list.get(i);
+
+            if(left.containsKey(i)){
+                entry_table.addCell(String.valueOf(left.get(i)));
+                entry_table.addCell("");
+                entry_table.addCell("");
+            }
+            else if(center.containsKey(i)){
+                entry_table.addCell("");
+                entry_table.addCell(String.valueOf(center.get(i)));
+                entry_table.addCell("");
+            }
+            else if(right.containsKey(i)){
+                entry_table.addCell("");
+                entry_table.addCell("");
+                entry_table.addCell(String.valueOf(right.get(i)));
+            }
+            else{
+                entry_table.addCell("");
+                entry_table.addCell("");
+                entry_table.addCell("");
+            }
 
             if(bs_list.containsKey(i)){
                 entry_table.addCell(String.valueOf(bs_list.get(i)));
@@ -522,4 +621,5 @@ public class SimpleCalcActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

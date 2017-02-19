@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.debashubham.dumpy.ChainageCalcActivity"
+    tools:showIn="@layout/chainage_calc_activity"
+    android:id="@+id/simple_calc_layout"
+    android:fitsSystemWindows="true">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BS:"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="70dp"
+        android:layout_marginLeft="25dp"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:id="@+id/bstext_chain" />
+
+    <EditText
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/BS_chain"
+        android:textAlignment="center"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/bstext_chain"
+        android:layout_marginRight="70dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="ENTER VALUES"
+        android:textStyle="bold"
+        android:fontFamily="serif-monospace"
+        android:layout_marginTop="20dp"
+        android:id="@+id/textView2"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RL:"
+        android:layout_below="@+id/bstext_chain"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="25dp"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:id="@+id/rltext_chain" />
+
+    <EditText
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:textAlignment="center"
+        android:id="@+id/RL_chain"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/rltext_chain"
+        android:layout_marginRight="70dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="IS:"
+        android:layout_below="@+id/rltext_chain"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="25dp"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:id="@+id/istext_chain" />
+
+    <EditText
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:textAlignment="center"
+        android:id="@+id/IS_chain"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/istext_chain"
+        android:layout_marginRight="70dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FS:"
+        android:layout_below="@+id/istext_chain"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="25dp"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:id="@+id/fstext_chain" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="HI:"
+        android:layout_below="@+id/fstext_chain"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="25dp"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:id="@+id/hitext_chain" />
+
+    <TextView
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:id="@+id/HI_chain"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/hitext_chain"
+        android:layout_toRightOf="@+id/hitext_chain"
+        android:layout_marginRight="70dp" />
+
+    <EditText
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:textAlignment="center"
+        android:id="@+id/FS_chain"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/fstext_chain"
+        android:layout_marginRight="70dp"/>
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ENTER"
+        android:id="@+id/button_BS_chain"
+        android:layout_alignBottom="@+id/bstext_chain"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ENTER"
+        android:id="@+id/button_RL_chain"
+        android:layout_alignBottom="@+id/rltext_chain"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ENTER"
+        android:id="@+id/button_IS_chain"
+        android:layout_alignBottom="@+id/istext_chain"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ENTER"
+        android:id="@+id/button_FS_chain"
+        android:layout_alignBottom="@+id/fstext_chain"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CLEAR VALUES"
+        android:id="@+id/clear_button_chain"
+        android:layout_marginTop="72dp"
+        android:layout_below="@+id/chainage"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:id="@+id/chainage"
+        android:text="CHAINAGE:"
+        android:layout_alignStart="@+id/hitext_chain"
+        android:layout_alignLeft="@+id/hitext_chain"
+        android:layout_below="@+id/hitext_chain"
+        android:layout_marginTop="10dp"
+        android:textSize="25dp"
+        android:textStyle="bold"/>
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner_LCR"
+        android:layout_below="@+id/HI_chain"
+        android:layout_toRightOf="@+id/chainage"
+        android:layout_alignBottom="@+id/chainage"
+        android:layout_alignRight="@+id/button_FS_chain"
+        android:layout_alignEnd="@+id/button_FS_chain" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner_chain_points"
+        android:layout_below="@+id/spinner_LCR"
+        android:layout_alignRight="@+id/spinner_LCR"
+        android:layout_alignEnd="@+id/spinner_LCR"
+        android:layout_toRightOf="@+id/chainage"
+        android:layout_toEndOf="@+id/chainage" />
+
+
+</RelativeLayout>

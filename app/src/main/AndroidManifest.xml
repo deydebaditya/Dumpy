@@ -34,6 +34,12 @@
             android:label=""
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <!--Chainage Calculator-->
+        <activity
+            android:name=".ChainageCalcActivity"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
         <!--Saved PDFs-->
         <activity
             android:name=".SavedPDFActivity"

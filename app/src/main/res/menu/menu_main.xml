@@ -7,4 +7,9 @@
         android:orderInCategory="100"
         android:title="Show Saved PDFs"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/exit"
+        android:orderInCategory="100"
+        android:title="Exit"
+        app:showAsAction="never" />
 </menu>
