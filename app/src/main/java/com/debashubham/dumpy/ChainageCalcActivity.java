@@ -107,7 +107,7 @@ public class ChainageCalcActivity extends AppCompatActivity {
         chain_lcr.setAdapter(adapter);
 
         list = new ArrayList<String>();
-        for(int i=1;i<=60;i++) {
+        for(int i=0;i<=5000;i+=5) {
             list.add(String.valueOf(i));
         }
         adapter = new ArrayAdapter<String>(getApplicationContext(),
@@ -229,7 +229,7 @@ public class ChainageCalcActivity extends AppCompatActivity {
                 if(c==1) {
                     hi_list.put(counter,(Math.round((bs_list.get(counter) + rl_list.get(counter))*1000.0)/1000.0));
                     store_hi_counter=counter;
-                    hi.setText(hi_list.get(counter).toString());
+                    hi.setText(String.valueOf(bs_list.get(counter) + rl_list.get(counter)));
                     if(chain_lcr.getSelectedItem().toString().equals("L"))
                         left.put(counter,chain_points.getSelectedItem().toString());
                     else if(chain_lcr.getSelectedItem().toString().equals("C"))
@@ -259,7 +259,7 @@ public class ChainageCalcActivity extends AppCompatActivity {
 
                 hi_list.put(counter,(Math.round((bs_list.get(counter) + rl_list.get(counter))*1000.0)/1000.0));
                 store_hi_counter=counter;
-                hi.setText(String.valueOf(Math.round(hi_list.get(counter)*1000.0/1000.0)));
+                hi.setText(String.valueOf(hi_list.get(counter)));
                 c=1;
                 Toast.makeText(getApplicationContext(),"RL entered!",Toast.LENGTH_SHORT).show();
             }

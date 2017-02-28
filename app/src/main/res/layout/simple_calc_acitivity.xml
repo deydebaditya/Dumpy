@@ -36,14 +36,15 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_simple_calc" />
+        <include layout="@layout/content_simple_calc" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_accept_simple_values"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         app:fabSize="normal"
-        android:layout_margin="40dp"
+        android:layout_margin="20dp"
         android:src="@android:drawable/ic_media_play" />
 
 

@@ -41,6 +41,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 /**
  * Created by deba on 12/2/17.
@@ -49,17 +50,20 @@ public class SimpleCalcActivity extends AppCompatActivity {
 
     ImageView back_button;
     EditText bs,rl,is,fs;
-    TextView hi;
-    Button bs_input,rl_input,is_input,fs_input,clear_button;
+    TextView hi,last_entered;
+    Button bs_input,rl_input,is_input,fs_input,clear_button,clear_single_value;
     HashMap<Integer,Double> bs_list;
     HashMap<Integer,Double> rl_list;
     HashMap<Integer,Double> is_list;
     HashMap<Integer,Double> fs_list;
     HashMap<Integer,Double> hi_list;
     HashMap<Integer,String> remarks_list;
+    LinkedList<Integer> values_list;
+    LinkedList<Integer> hi_counter_list;
     FloatingActionButton accept;
     String remarks="";
     int c=0,counter=0,store_hi_counter=0,change_point_count=0;
+    int flag_enter=9999;//0 for only BS,1 for RL,2 for BS+FS+HI+RL,3 for IS+RL,4 for FS+HI
     Document document;
     File pdfDirectory;
     File newFile;
@@ -92,6 +96,7 @@ public class SimpleCalcActivity extends AppCompatActivity {
         is=(EditText)findViewById(R.id.IS);
         fs=(EditText)findViewById(R.id.FS);
         hi=(TextView)findViewById(R.id.HI);
+        last_entered=(TextView)findViewById(R.id.last_entered);
 
         document=new Document();
         introduction=getSharedPreferences("introduction",MODE_PRIVATE);
@@ -116,6 +121,7 @@ public class SimpleCalcActivity extends AppCompatActivity {
         is_input=(Button)findViewById(R.id.button_IS);
         fs_input=(Button)findViewById(R.id.button_FS);
         clear_button=(Button)findViewById(R.id.clear_button);
+        clear_single_value=(Button)findViewById(R.id.clear_last_button);
 
 
         accept=(FloatingActionButton)findViewById(R.id.fab_accept_simple_values);
@@ -127,6 +133,7 @@ public class SimpleCalcActivity extends AppCompatActivity {
         is_input.setEnabled(false);
         fs_input.setEnabled(false);
         accept.setEnabled(false);
+        clear_single_value.setEnabled(false);
 
         bs_list=new HashMap<>();
         rl_list=new HashMap<>();
@@ -134,6 +141,148 @@ public class SimpleCalcActivity extends AppCompatActivity {
         fs_list=new HashMap<>();
         hi_list=new HashMap<>();
         remarks_list=new HashMap<>();
+        values_list=new LinkedList<>();
+        hi_counter_list=new LinkedList<>();
+
+
+        clear_single_value.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!values_list.isEmpty()) {
+                    switch (values_list.getLast()) {
+                        case 0:
+                            bs_list.remove(counter);
+                            remarks_list.remove(counter);
+                            counter--;
+                            values_list.removeLast();
+                            flag_enter=9999;
+                            last_entered.setText("No Data!");
+                            clear_single_value.setEnabled(false);
+                            bs.setEnabled(true);
+                            is.setEnabled(false);
+                            rl.setEnabled(false);
+                            fs.setEnabled(false);
+                            bs_input.setEnabled(true);
+                            is_input.setEnabled(false);
+                            rl_input.setEnabled(false);
+                            fs_input.setEnabled(false);
+                            accept.setEnabled(false);
+                            Toast.makeText(getApplicationContext(),"All values cleared, no data remaining!",Toast.LENGTH_SHORT).show();
+                            bs.setEnabled(true);
+                            is.setEnabled(false);
+                            rl.setEnabled(false);
+                            fs.setEnabled(false);
+                            bs_input.setEnabled(true);
+                            is_input.setEnabled(false);
+                            rl_input.setEnabled(false);
+                            fs_input.setEnabled(false);
+                            Toast.makeText(getApplicationContext(),"BS value cleared!",Toast.LENGTH_SHORT).show();
+                            break;
+                        case 1:
+                            rl_list.remove(counter);
+                            hi_list.remove(store_hi_counter);
+                            hi_counter_list.removeLast();
+                            if(!hi_counter_list.isEmpty())
+                                store_hi_counter=hi_counter_list.getLast();
+                            else
+                                store_hi_counter=0;
+                            values_list.removeLast();
+                            last_entered.setText(getLastData(values_list.getLast()));
+                            bs.setEnabled(false);
+                            is.setEnabled(false);
+                            rl.setEnabled(true);
+                            fs.setEnabled(false);
+                            bs_input.setEnabled(false);
+                            is_input.setEnabled(false);
+                            rl_input.setEnabled(true);
+                            fs_input.setEnabled(false);
+                            Toast.makeText(getApplicationContext(),"RL and HI value cleared!",Toast.LENGTH_SHORT).show();
+                            break;
+                        case 2:
+                            bs_list.remove(counter);
+                            hi_list.remove(store_hi_counter);
+                            hi_counter_list.removeLast();
+                            if(!hi_counter_list.isEmpty())
+                                store_hi_counter=hi_counter_list.getLast();
+                            else
+                                store_hi_counter=0;
+                            Log.e("Counter:",String.valueOf(counter));
+                            values_list.removeLast();
+                            last_entered.setText(getLastData(values_list.getLast()));
+                            bs.setEnabled(true);
+                            is.setEnabled(false);
+                            rl.setEnabled(false);
+                            fs.setEnabled(false);
+                            bs_input.setEnabled(true);
+                            is_input.setEnabled(false);
+                            rl_input.setEnabled(false);
+                            fs_input.setEnabled(false);
+                            Toast.makeText(getApplicationContext(),"BS value cleared!",Toast.LENGTH_SHORT).show();
+                            break;
+                        case 3:
+                            is_list.remove(counter);
+                            rl_list.remove(counter);
+                            counter--;
+                            values_list.removeLast();
+                            last_entered.setText(getLastData(values_list.getLast()));
+                            bs.setEnabled(false);
+                            is.setEnabled(true);
+                            rl.setEnabled(false);
+                            fs.setEnabled(true);
+                            bs_input.setEnabled(false);
+                            is_input.setEnabled(true);
+                            rl_input.setEnabled(false);
+                            fs_input.setEnabled(true);
+                            Toast.makeText(getApplicationContext(),"IS and RL value cleared!",Toast.LENGTH_SHORT).show();
+                            break;
+                        case 4:
+                            fs_list.remove(counter);
+                            rl_list.remove(counter);
+                            remarks_list.remove(counter);
+                            change_point_count--;
+                            counter--;
+                            values_list.removeLast();
+                            last_entered.setText(getLastData(values_list.getLast()));
+                            bs.setEnabled(false);
+                            is.setEnabled(true);
+                            rl.setEnabled(false);
+                            fs.setEnabled(true);
+                            bs_input.setEnabled(false);
+                            is_input.setEnabled(true);
+                            rl_input.setEnabled(false);
+                            fs_input.setEnabled(true);
+                            Toast.makeText(getApplicationContext(),"FS and HI value cleared!",Toast.LENGTH_SHORT).show();
+                            break;
+                        default:
+                            last_entered.setText(getLastData(values_list.getLast()));
+                            bs.setEnabled(true);
+                            is.setEnabled(false);
+                            rl.setEnabled(false);
+                            fs.setEnabled(false);
+                            bs_input.setEnabled(true);
+                            is_input.setEnabled(false);
+                            rl_input.setEnabled(false);
+                            fs_input.setEnabled(false);
+                            Toast.makeText(getApplicationContext(),"All values cleared, no data remaining!",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else{
+                    flag_enter=9999;
+                    last_entered.setText("No Data!");
+                    clear_single_value.setEnabled(false);
+                    bs.setEnabled(true);
+                    is.setEnabled(false);
+                    rl.setEnabled(false);
+                    fs.setEnabled(false);
+                    bs_input.setEnabled(true);
+                    is_input.setEnabled(false);
+                    rl_input.setEnabled(false);
+                    fs_input.setEnabled(false);
+                    accept.setEnabled(false);
+                    Toast.makeText(getApplicationContext(),"All values cleared, no data remaining!",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         clear_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,14 +293,18 @@ public class SimpleCalcActivity extends AppCompatActivity {
                 fs_list.clear();
                 hi_list.clear();
                 remarks_list.clear();
+                values_list.clear();
                 rl.setEnabled(false);
                 is.setEnabled(false);
                 fs.setEnabled(false);
+                last_entered.setText("");
                 rl_input.setEnabled(false);
                 is_input.setEnabled(false);
                 fs_input.setEnabled(false);
                 bs.setEnabled(true);
                 bs_input.setEnabled(true);
+                accept.setEnabled(false);
+                clear_single_value.setEnabled(false);
                 c=0;
                 counter=0;
                 change_point_count=0;
@@ -159,32 +312,44 @@ public class SimpleCalcActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Values in memory cleared!",Toast.LENGTH_SHORT).show();
             }
         });
-
+//
         bs_input.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(c==0) {
                     rl_input.setEnabled(true);
                     rl.setEnabled(true);
+                    clear_single_value.setEnabled(true);
                     counter++;
                     remarks="B.M.";
                     remarks_list.put(counter,remarks);
                     bs_list.put(counter,Double.parseDouble(bs.getText().toString()));
+                    values_list.add(0);
+                    last_entered.setText(getLastData(values_list.getLast()));
+
+                    flag_enter=0;
                 }
-                else{
+                else {
                     is_input.setEnabled(true);
                     is.setEnabled(true);
                     fs_input.setEnabled(true);
                     fs.setEnabled(true);
                     bs_list.put(counter,Double.parseDouble(bs.getText().toString()));
+                    Log.e("BS:","Entered!");
+                    values_list.add(2);
+                    last_entered.setText(getLastData(values_list.getLast()));
+
+                    flag_enter=2;
                 }
                 bs.setText("");
                 bs.setEnabled(false);
                 bs_input.setEnabled(false);
                 if(c==1) {
+                    Log.e("Counter:",String.valueOf(counter));
                     hi_list.put(counter,(Math.round((bs_list.get(counter) + rl_list.get(counter))*1000.0)/1000.0));
                     store_hi_counter=counter;
-                    hi.setText(hi_list.get(counter).toString());
+                    hi_counter_list.add(store_hi_counter);
+                    hi.setText(String.valueOf(bs_list.get(counter) + rl_list.get(counter)));
                 }
                 Toast.makeText(getApplicationContext(),"BS entered!",Toast.LENGTH_SHORT).show();
             }
@@ -206,9 +371,14 @@ public class SimpleCalcActivity extends AppCompatActivity {
 
                 hi_list.put(counter,(Math.round((bs_list.get(counter) + rl_list.get(counter))*1000.0)/1000.0));
                 store_hi_counter=counter;
-                hi.setText(String.valueOf(Math.round(hi_list.get(counter)*1000.0/1000.0)));
+                hi_counter_list.add(store_hi_counter);
+                hi.setText(String.valueOf(hi_list.get(counter)));
                 c=1;
                 Toast.makeText(getApplicationContext(),"RL entered!",Toast.LENGTH_SHORT).show();
+                values_list.add(1);
+                last_entered.setText(getLastData(values_list.getLast()));
+
+                flag_enter=1;
             }
         });
 
@@ -221,6 +391,10 @@ public class SimpleCalcActivity extends AppCompatActivity {
 
                 rl_list.put(counter,Math.round((hi_list.get(store_hi_counter)-is_list.get(counter))*1000.0)/1000.0);
                 Toast.makeText(getApplicationContext(),"IS entered!",Toast.LENGTH_SHORT).show();
+                values_list.add(3);
+                last_entered.setText(getLastData(values_list.getLast()));
+
+                flag_enter=3;
             }
         });
 
@@ -243,6 +417,10 @@ public class SimpleCalcActivity extends AppCompatActivity {
 
                 rl_list.put(counter,Math.round((hi_list.get(store_hi_counter)-fs_list.get(counter))*1000.0)/1000.0);
                 Toast.makeText(getApplicationContext(),"FS entered!",Toast.LENGTH_SHORT).show();
+                values_list.add(4);
+                last_entered.setText(getLastData(values_list.getLast()));
+
+                flag_enter=4;
             }
         });
 
@@ -310,6 +488,25 @@ public class SimpleCalcActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+    }
+
+    private String getLastData(int flag){
+
+        switch(flag){
+            case 0:
+                return "BS: "+bs_list.get(counter).toString();
+            case 1:
+                return "RL: "+rl_list.get(counter).toString();
+            case 2:
+                return "BS: "+bs_list.get(counter).toString();
+            case 3:
+                return "IS: "+is_list.get(counter).toString();
+            case 4:
+                return "FS: "+fs_list.get(counter).toString();
+            default:
+                return "No Data";
+        }
+
     }
 
     private void addMetaData(Document document) {

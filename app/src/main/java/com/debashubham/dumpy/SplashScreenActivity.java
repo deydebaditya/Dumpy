@@ -30,7 +30,7 @@ public class SplashScreenActivity extends Activity {
             @Override
             public void run() {
                 Intent intent=new Intent(SplashScreenActivity.this, MainActivity.class);
-                startActivity(intent);
+                startActivity(intent);//open main user screen
                 finish();
                 overridePendingTransition(R.anim.fadein,R.anim.fadeout);
             }

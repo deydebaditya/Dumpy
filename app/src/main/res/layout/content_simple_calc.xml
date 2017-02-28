@@ -20,7 +20,7 @@
         android:text="BS:"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="75dp"
         android:layout_marginLeft="25dp"
         android:textSize="25dp"
         android:textStyle="bold"
@@ -120,6 +120,9 @@
         android:textAlignment="center"
         android:id="@+id/HI"
         android:layout_alignParentRight="true"
+        android:textSize="25dp"
+        android:textStyle=""
+        android:layout_marginLeft="50dp"
         android:layout_alignBottom="@+id/hitext"
         android:layout_toRightOf="@+id/hitext"
         android:layout_marginRight="70dp" />
@@ -171,16 +174,60 @@
         android:layout_alignBottom="@+id/fstext"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/last_text"
+        android:layout_marginTop="5dp"
+        android:paddingTop="5dp">
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CLEAR EVERY VALUE"
+            android:id="@+id/clear_button"
+            android:layout_below="@+id/HI"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_weight="1"/>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CLEAR LAST VALUE"
+            android:id="@+id/clear_last_button"
+            android:layout_alignTop="@+id/clear_button"
+            android:layout_alignRight="@+id/button_FS"
+            android:layout_alignEnd="@+id/button_FS"
+            android:layout_weight="2"/>
+
+    </LinearLayout>
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CLEAR VALUES"
-        android:id="@+id/clear_button"
-        android:layout_below="@+id/HI"
-        android:layout_marginTop="15dp"
-        android:layout_centerHorizontal="true" />
+        android:text="Last Entered:"
+        android:id="@+id/last_text"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/hitext"
+        android:layout_alignLeft="@+id/hitext"
+        android:layout_alignStart="@+id/hitext" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/last_entered"
+        android:layout_marginLeft="60dp"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        android:layout_alignTop="@+id/last_text"
+        android:layout_toRightOf="@+id/last_text"
+        android:layout_toEndOf="@+id/last_text" />
 
 
 </RelativeLayout>
