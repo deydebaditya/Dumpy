@@ -312,7 +312,7 @@ public class SimpleCalcActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Values in memory cleared!",Toast.LENGTH_SHORT).show();
             }
         });
-//
+
         bs_input.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

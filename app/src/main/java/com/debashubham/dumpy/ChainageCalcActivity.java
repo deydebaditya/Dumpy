@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -54,8 +55,8 @@ public class ChainageCalcActivity extends AppCompatActivity {
     Spinner chain_lcr,chain_points;
     ImageView back_button;
     EditText bs,rl,is,fs;
-    TextView hi;
-    Button bs_input,rl_input,is_input,fs_input,clear_button;
+    TextView hi,last_entered;
+    Button bs_input,rl_input,is_input,fs_input,clear_button,clear_single_value;
     HashMap<Integer,Double> bs_list;
     HashMap<Integer,Double> rl_list;
     HashMap<Integer,Double> is_list;
@@ -63,9 +64,13 @@ public class ChainageCalcActivity extends AppCompatActivity {
     HashMap<Integer,Double> hi_list;
     HashMap<Integer,String> remarks_list;
     HashMap<Integer,String> left,center,right;
+    LinkedList<Integer> values_list;
+    LinkedList<Integer> hi_counter_list;
+    LinkedList<Character> chainage;
+    LinkedList<Integer> chainage_points;
     FloatingActionButton accept;
     String remarks="";
-    int c=0,counter=0,store_hi_counter=0,change_point_count=0;
+    int c=0,counter=0,store_hi_counter=0,change_point_count=0,flag_enter=9999;
     Document document;
     File pdfDirectory;
     File newFile;
@@ -122,6 +127,7 @@ public class ChainageCalcActivity extends AppCompatActivity {
         is=(EditText)findViewById(R.id.IS_chain);
         fs=(EditText)findViewById(R.id.FS_chain);
         hi=(TextView)findViewById(R.id.HI_chain);
+        last_entered=(TextView)findViewById(R.id.last_entry_chain);
 
         document=new Document();
         introduction=getSharedPreferences("introduction",MODE_PRIVATE);
@@ -146,6 +152,7 @@ public class ChainageCalcActivity extends AppCompatActivity {
         is_input=(Button)findViewById(R.id.button_IS_chain);
         fs_input=(Button)findViewById(R.id.button_FS_chain);
         clear_button=(Button)findViewById(R.id.clear_button_chain);
+        clear_single_value=(Button)findViewById(R.id.clear_last_button_chain);
 
 
         accept=(FloatingActionButton)findViewById(R.id.fab_accept_chainage_values);
@@ -167,6 +174,152 @@ public class ChainageCalcActivity extends AppCompatActivity {
         left=new HashMap<>();
         center=new HashMap<>();
         right=new HashMap<>();
+        values_list=new LinkedList<>();
+        hi_counter_list=new LinkedList<>();
+        chainage=new LinkedList<>();
+        chainage_points=new LinkedList<>();
+
+        clear_single_value.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!values_list.isEmpty()) {
+                    switch (values_list.getLast()) {
+                        case 0:
+                            bs_list.remove(counter);
+                            remarks_list.remove(counter);
+                            counter--;
+                            values_list.removeLast();
+                            flag_enter=9999;
+                            last_entered.setText("No Data!");
+                            clear_single_value.setEnabled(false);
+                            bs.setEnabled(true);
+                            is.setEnabled(false);
+                            rl.setEnabled(false);
+                            fs.setEnabled(false);
+                            bs_input.setEnabled(true);
+                            is_input.setEnabled(false);
+                            rl_input.setEnabled(false);
+                            fs_input.setEnabled(false);
+                            accept.setEnabled(false);
+                            Toast.makeText(getApplicationContext(),"All values cleared, no data remaining!",Toast.LENGTH_SHORT).show();
+                            bs.setEnabled(true);
+                            is.setEnabled(false);
+                            rl.setEnabled(false);
+                            fs.setEnabled(false);
+                            bs_input.setEnabled(true);
+                            is_input.setEnabled(false);
+                            rl_input.setEnabled(false);
+                            fs_input.setEnabled(false);
+                            Toast.makeText(getApplicationContext(),"BS value cleared!",Toast.LENGTH_SHORT).show();
+                            break;
+                        case 1:
+                            rl_list.remove(counter);
+                            hi_list.remove(store_hi_counter);
+                            hi_counter_list.removeLast();
+                            if(!hi_counter_list.isEmpty())
+                                store_hi_counter=hi_counter_list.getLast();
+                            else
+                                store_hi_counter=0;
+                            values_list.removeLast();
+                            last_entered.setText(getLastData(values_list.getLast()));
+                            bs.setEnabled(false);
+                            is.setEnabled(false);
+                            rl.setEnabled(true);
+                            fs.setEnabled(false);
+                            bs_input.setEnabled(false);
+                            is_input.setEnabled(false);
+                            rl_input.setEnabled(true);
+                            fs_input.setEnabled(false);
+                            Toast.makeText(getApplicationContext(),"RL and HI value cleared!",Toast.LENGTH_SHORT).show();
+                            break;
+                        case 2:
+                            bs_list.remove(counter);
+                            hi_list.remove(store_hi_counter);
+                            hi_counter_list.removeLast();
+                            if(!hi_counter_list.isEmpty())
+                                store_hi_counter=hi_counter_list.getLast();
+                            else
+                                store_hi_counter=0;
+                            Log.e("Counter:",String.valueOf(counter));
+                            values_list.removeLast();
+                            chainage.removeLast();
+                            chainage_points.removeLast();
+                            last_entered.setText(String.valueOf(chainage.getLast())+":"+String.valueOf(String.valueOf(chainage_points.getLast()))+" "+getLastData(values_list.getLast()));
+                            bs.setEnabled(true);
+                            is.setEnabled(false);
+                            rl.setEnabled(false);
+                            fs.setEnabled(false);
+                            bs_input.setEnabled(true);
+                            is_input.setEnabled(false);
+                            rl_input.setEnabled(false);
+                            fs_input.setEnabled(false);
+                            Toast.makeText(getApplicationContext(),"BS value cleared!",Toast.LENGTH_SHORT).show();
+                            break;
+                        case 3:
+                            is_list.remove(counter);
+                            rl_list.remove(counter);
+                            counter--;
+                            values_list.removeLast();chainage.removeLast();
+                            chainage_points.removeLast();
+                            last_entered.setText(String.valueOf(chainage.getLast())+":"+String.valueOf(String.valueOf(chainage_points.getLast()))+" "+getLastData(values_list.getLast()));
+                            bs.setEnabled(false);
+                            is.setEnabled(true);
+                            rl.setEnabled(false);
+                            fs.setEnabled(true);
+                            bs_input.setEnabled(false);
+                            is_input.setEnabled(true);
+                            rl_input.setEnabled(false);
+                            fs_input.setEnabled(true);
+                            Toast.makeText(getApplicationContext(),"IS and RL value cleared!",Toast.LENGTH_SHORT).show();
+                            break;
+                        case 4:
+                            fs_list.remove(counter);
+                            rl_list.remove(counter);
+                            remarks_list.remove(counter);
+                            change_point_count--;
+                            counter--;
+                            values_list.removeLast();
+                            last_entered.setText(String.valueOf(chainage.getLast())+":"+String.valueOf(String.valueOf(chainage_points.getLast()))+" "+getLastData(values_list.getLast()));
+                            bs.setEnabled(false);
+                            is.setEnabled(true);
+                            rl.setEnabled(false);
+                            fs.setEnabled(true);
+                            bs_input.setEnabled(false);
+                            is_input.setEnabled(true);
+                            rl_input.setEnabled(false);
+                            fs_input.setEnabled(true);
+                            Toast.makeText(getApplicationContext(),"FS and HI value cleared!",Toast.LENGTH_SHORT).show();
+                            break;
+                        default:
+                            last_entered.setText(getLastData(values_list.getLast()));
+                            bs.setEnabled(true);
+                            is.setEnabled(false);
+                            rl.setEnabled(false);
+                            fs.setEnabled(false);
+                            bs_input.setEnabled(true);
+                            is_input.setEnabled(false);
+                            rl_input.setEnabled(false);
+                            fs_input.setEnabled(false);
+                            Toast.makeText(getApplicationContext(),"All values cleared, no data remaining!",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else{
+                    flag_enter=9999;
+                    last_entered.setText("No Data!");
+                    clear_single_value.setEnabled(false);
+                    bs.setEnabled(true);
+                    is.setEnabled(false);
+                    rl.setEnabled(false);
+                    fs.setEnabled(false);
+                    bs_input.setEnabled(true);
+                    is_input.setEnabled(false);
+                    rl_input.setEnabled(false);
+                    fs_input.setEnabled(false);
+                    accept.setEnabled(false);
+                    Toast.makeText(getApplicationContext(),"All values cleared, no data remaining!",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         clear_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,14 +333,19 @@ public class ChainageCalcActivity extends AppCompatActivity {
                 right.clear();
                 center.clear();
                 remarks_list.clear();
+                values_list.clear();
+                chainage.clear();
+                chainage_points.clear();
                 rl.setEnabled(false);
                 is.setEnabled(false);
                 fs.setEnabled(false);
+                last_entered.setText("");
                 rl_input.setEnabled(false);
                 is_input.setEnabled(false);
                 fs_input.setEnabled(false);
                 bs.setEnabled(true);
                 bs_input.setEnabled(true);
+                clear_single_value.setEnabled(false);
                 c=0;
                 counter=0;
                 change_point_count=0;
@@ -202,10 +360,13 @@ public class ChainageCalcActivity extends AppCompatActivity {
                 if(c==0) {
                     rl_input.setEnabled(true);
                     rl.setEnabled(true);
+                    clear_single_value.setEnabled(true);
                     counter++;
                     remarks="B.M.";
                     remarks_list.put(counter,remarks);
                     bs_list.put(counter,Double.parseDouble(bs.getText().toString()));
+                    values_list.add(0);
+                    last_entered.setText(getLastData(values_list.getLast()));
                 }
                 else{
                     is_input.setEnabled(true);
@@ -214,14 +375,25 @@ public class ChainageCalcActivity extends AppCompatActivity {
                     fs.setEnabled(true);
                     bs_list.put(counter,Double.parseDouble(bs.getText().toString()));
 
-                    if(chain_lcr.getSelectedItem().toString().equals("L"))
-                        left.put(counter,chain_points.getSelectedItem().toString());
-                    else if(chain_lcr.getSelectedItem().toString().equals("C"))
-                        center.put(counter,chain_points.getSelectedItem().toString());
-                    else
-                        right.put(counter,chain_points.getSelectedItem().toString());
+                    if(chain_lcr.getSelectedItem().toString().equals("L")) {
+                        left.put(counter, chain_points.getSelectedItem().toString());
+                        chainage.add('L');
+                        chainage_points.add(Integer.parseInt(chain_points.getSelectedItem().toString()));
+                    }
+                    else if(chain_lcr.getSelectedItem().toString().equals("C")) {
+                        center.put(counter, chain_points.getSelectedItem().toString());
+                        chainage.add('C');
+                        chainage_points.add(Integer.parseInt(chain_points.getSelectedItem().toString()));
+                    }
+                    else {
+                        right.put(counter, chain_points.getSelectedItem().toString());
+                        chainage.add('R');
+                        chainage_points.add(Integer.parseInt(chain_points.getSelectedItem().toString()));
+                    }
                     chain_points.setEnabled(true);
                     chain_lcr.setEnabled(true);
+                    values_list.add(2);
+                    last_entered.setText(String.valueOf(chainage.getLast())+":"+String.valueOf(String.valueOf(chainage_points.getLast()))+" "+getLastData(values_list.getLast()));
                 }
                 bs.setText("");
                 bs.setEnabled(false);
@@ -229,13 +401,23 @@ public class ChainageCalcActivity extends AppCompatActivity {
                 if(c==1) {
                     hi_list.put(counter,(Math.round((bs_list.get(counter) + rl_list.get(counter))*1000.0)/1000.0));
                     store_hi_counter=counter;
+                    hi_counter_list.add(store_hi_counter);
                     hi.setText(String.valueOf(bs_list.get(counter) + rl_list.get(counter)));
-                    if(chain_lcr.getSelectedItem().toString().equals("L"))
-                        left.put(counter,chain_points.getSelectedItem().toString());
-                    else if(chain_lcr.getSelectedItem().toString().equals("C"))
-                        center.put(counter,chain_points.getSelectedItem().toString());
-                    else
-                        right.put(counter,chain_points.getSelectedItem().toString());
+                    if(chain_lcr.getSelectedItem().toString().equals("L")) {
+                        left.put(counter, chain_points.getSelectedItem().toString());
+                        chainage.add('L');
+                        chainage_points.add(Integer.parseInt(chain_points.getSelectedItem().toString()));
+                    }
+                    else if(chain_lcr.getSelectedItem().toString().equals("C")) {
+                        center.put(counter, chain_points.getSelectedItem().toString());
+                        chainage.add('C');
+                        chainage_points.add(Integer.parseInt(chain_points.getSelectedItem().toString()));
+                    }
+                    else {
+                        right.put(counter, chain_points.getSelectedItem().toString());
+                        chainage.add('R');
+                        chainage_points.add(Integer.parseInt(chain_points.getSelectedItem().toString()));
+                    }
                     chain_lcr.setEnabled(true);
                     chain_points.setEnabled(true);
                 }
@@ -259,9 +441,12 @@ public class ChainageCalcActivity extends AppCompatActivity {
 
                 hi_list.put(counter,(Math.round((bs_list.get(counter) + rl_list.get(counter))*1000.0)/1000.0));
                 store_hi_counter=counter;
+                hi_counter_list.add(store_hi_counter);
                 hi.setText(String.valueOf(hi_list.get(counter)));
                 c=1;
                 Toast.makeText(getApplicationContext(),"RL entered!",Toast.LENGTH_SHORT).show();
+                values_list.add(1);
+                last_entered.setText(getLastData(values_list.getLast()));
             }
         });
 
@@ -273,13 +458,24 @@ public class ChainageCalcActivity extends AppCompatActivity {
                 is.setText("");
 
                 rl_list.put(counter,Math.round((hi_list.get(store_hi_counter)-is_list.get(counter))*1000.0)/1000.0);
-                if(chain_lcr.getSelectedItem().toString().equals("L"))
-                    left.put(counter,chain_points.getSelectedItem().toString());
-                else if(chain_lcr.getSelectedItem().toString().equals("C"))
-                    center.put(counter,chain_points.getSelectedItem().toString());
-                else
-                    right.put(counter,chain_points.getSelectedItem().toString());
+                if(chain_lcr.getSelectedItem().toString().equals("L")) {
+                    left.put(counter, chain_points.getSelectedItem().toString());
+                    chainage.add('L');
+                    chainage_points.add(Integer.parseInt(chain_points.getSelectedItem().toString()));
+                }
+                else if(chain_lcr.getSelectedItem().toString().equals("C")) {
+                    center.put(counter, chain_points.getSelectedItem().toString());
+                    chainage.add('C');
+                    chainage_points.add(Integer.parseInt(chain_points.getSelectedItem().toString()));
+                }
+                else {
+                    right.put(counter, chain_points.getSelectedItem().toString());
+                    chainage.add('R');
+                    chainage_points.add(Integer.parseInt(chain_points.getSelectedItem().toString()));
+                }
                 Toast.makeText(getApplicationContext(),"IS entered!",Toast.LENGTH_SHORT).show();
+                values_list.add(3);
+                last_entered.setText(String.valueOf(chainage.getLast())+":"+String.valueOf(String.valueOf(chainage_points.getLast()))+" "+getLastData(values_list.getLast()));
             }
         });
 
@@ -304,6 +500,8 @@ public class ChainageCalcActivity extends AppCompatActivity {
 
                 rl_list.put(counter,Math.round((hi_list.get(store_hi_counter)-fs_list.get(counter))*1000.0)/1000.0);
                 Toast.makeText(getApplicationContext(),"FS entered!",Toast.LENGTH_SHORT).show();
+                values_list.add(4);
+                last_entered.setText(getLastData(values_list.getLast()));
             }
         });
         accept.setOnClickListener(new View.OnClickListener() {
@@ -380,6 +578,25 @@ public class ChainageCalcActivity extends AppCompatActivity {
         });
     }
 
+    private String getLastData(int flag){
+
+        switch(flag){
+            case 0:
+                return "BS: "+bs_list.get(counter).toString();
+            case 1:
+                return "RL: "+rl_list.get(counter).toString();
+            case 2:
+                return "BS: "+bs_list.get(counter).toString();
+            case 3:
+                return "IS: "+is_list.get(counter).toString();
+            case 4:
+                return "FS: "+fs_list.get(counter).toString();
+            default:
+                return "No Data";
+        }
+
+    }
+
     private void addMetaData(Document document) {
         document.addTitle("Report generated on:"+formattedDate);
         document.addSubject("Dumpy Level Report");
@@ -448,11 +665,11 @@ public class ChainageCalcActivity extends AppCompatActivity {
 //        entry_table.setWidths(new float[]{0.25f,0.5f,0.5f,0.5f,0.5f,0.5f,0.5f,0.5f,0.5f,1.0f});
         PdfPCell id=new PdfPCell(new Phrase("Station Point"));
         id.setHorizontalAlignment(Element.ALIGN_CENTER);
-        PdfPCell left_row=new PdfPCell(new Phrase("Left"));
+        PdfPCell left_row=new PdfPCell(new Phrase("CH. Left"));
         left_row.setHorizontalAlignment(Element.ALIGN_CENTER);
-        PdfPCell center_row=new PdfPCell(new Phrase("Center"));
+        PdfPCell center_row=new PdfPCell(new Phrase("CH. Center"));
         center_row.setHorizontalAlignment(Element.ALIGN_CENTER);
-        PdfPCell right_row=new PdfPCell(new Phrase("Right"));
+        PdfPCell right_row=new PdfPCell(new Phrase("CH. Right"));
         right_row.setHorizontalAlignment(Element.ALIGN_CENTER);
         PdfPCell bs=new PdfPCell(new Phrase("BS"));
         bs.setHorizontalAlignment(Element.ALIGN_CENTER);

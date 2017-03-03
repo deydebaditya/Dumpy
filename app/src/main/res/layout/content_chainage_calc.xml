@@ -20,7 +20,7 @@
         android:text="BS:"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="55dp"
         android:layout_marginLeft="25dp"
         android:textSize="25dp"
         android:textStyle="bold"
@@ -44,7 +44,7 @@
         android:text="ENTER VALUES"
         android:textStyle="bold"
         android:fontFamily="serif-monospace"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:id="@+id/textView2"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
@@ -119,6 +119,7 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:id="@+id/HI_chain"
+        android:textSize="25dp"
         android:layout_alignParentRight="true"
         android:layout_alignBottom="@+id/hitext_chain"
         android:layout_toRightOf="@+id/hitext_chain"
@@ -172,15 +173,34 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CLEAR VALUES"
-        android:id="@+id/clear_button_chain"
-        android:layout_marginTop="72dp"
-        android:layout_below="@+id/chainage"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/spinner_chain_points"
+        android:layout_alignLeft="@+id/hitext_chain"
+        android:layout_marginTop="40dp"
+        android:id="@+id/linearLayout">
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CLEAR VALUES"
+            android:id="@+id/clear_button_chain"
+            android:layout_below="@+id/spinner_chain_points"
+            android:layout_toLeftOf="@+id/FS_chain"
+            android:layout_toStartOf="@+id/FS_chain"
+            android:layout_weight="1"/>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CLEAR LAST"
+            android:id="@+id/clear_last_button_chain"
+            android:layout_weight="2"/>
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
@@ -214,6 +234,32 @@
         android:layout_alignEnd="@+id/spinner_LCR"
         android:layout_toRightOf="@+id/chainage"
         android:layout_toEndOf="@+id/chainage" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:id="@+id/textView4"
+        android:text="LAST ENTRY:"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:layout_marginTop="3dp"
+        android:layout_below="@+id/spinner_chain_points"
+        android:layout_alignLeft="@+id/linearLayout"
+        android:layout_alignStart="@+id/linearLayout" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:id="@+id/last_entry_chain"
+        android:text="dummy text"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:layout_marginLeft="50dp"
+        android:layout_alignBottom="@+id/textView4"
+        android:layout_alignLeft="@+id/FS_chain"
+        android:layout_alignStart="@+id/FS_chain" />
 
 
 </RelativeLayout>
