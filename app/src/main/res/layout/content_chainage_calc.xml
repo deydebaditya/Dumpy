@@ -29,7 +29,7 @@
     <EditText
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
+        android:inputType="numberSigned|numberDecimal"
         android:ems="10"
         android:id="@+id/BS_chain"
         android:textAlignment="center"
@@ -62,7 +62,7 @@
     <EditText
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
+        android:inputType="numberSigned|numberDecimal"
         android:ems="10"
         android:textAlignment="center"
         android:id="@+id/RL_chain"
@@ -84,7 +84,7 @@
     <EditText
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
+        android:inputType="numberSigned|numberDecimal"
         android:ems="10"
         android:textAlignment="center"
         android:id="@+id/IS_chain"
@@ -128,7 +128,7 @@
     <EditText
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
+        android:inputType="numberSigned|numberDecimal"
         android:ems="10"
         android:textAlignment="center"
         android:id="@+id/FS_chain"
@@ -253,7 +253,7 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:id="@+id/last_entry_chain"
-        android:text="dummy text"
+        android:text=""
         android:textSize="16dp"
         android:textStyle="bold"
         android:layout_marginLeft="50dp"

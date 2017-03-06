@@ -326,6 +326,7 @@ public class SimpleCalcActivity extends AppCompatActivity {
                     bs_list.put(counter,Double.parseDouble(bs.getText().toString()));
                     values_list.add(0);
                     last_entered.setText(getLastData(values_list.getLast()));
+                    rl.requestFocus();
 
                     flag_enter=0;
                 }
@@ -338,6 +339,7 @@ public class SimpleCalcActivity extends AppCompatActivity {
                     Log.e("BS:","Entered!");
                     values_list.add(2);
                     last_entered.setText(getLastData(values_list.getLast()));
+                    is.requestFocus();
 
                     flag_enter=2;
                 }
@@ -377,6 +379,7 @@ public class SimpleCalcActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"RL entered!",Toast.LENGTH_SHORT).show();
                 values_list.add(1);
                 last_entered.setText(getLastData(values_list.getLast()));
+                is.requestFocus();
 
                 flag_enter=1;
             }
@@ -393,6 +396,7 @@ public class SimpleCalcActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"IS entered!",Toast.LENGTH_SHORT).show();
                 values_list.add(3);
                 last_entered.setText(getLastData(values_list.getLast()));
+                is.requestFocus();
 
                 flag_enter=3;
             }
@@ -419,6 +423,7 @@ public class SimpleCalcActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"FS entered!",Toast.LENGTH_SHORT).show();
                 values_list.add(4);
                 last_entered.setText(getLastData(values_list.getLast()));
+                bs.requestFocus();
 
                 flag_enter=4;
             }
@@ -683,7 +688,21 @@ public class SimpleCalcActivity extends AppCompatActivity {
             check_para.setSpacingBefore(20);
             check_para.add("Check Fail!");
         }
+        addEmptyLine(check_para,1);
+        check_para.add("_______________________________________________________");
         subCatPart.add(check_para);
+        Paragraph legend_para=new Paragraph("LEGEND:",subFont);
+        addEmptyLine(legend_para,2);
+        legend_para.add("BS : Back Sight");
+        addEmptyLine(legend_para,1);
+        legend_para.add("IS : Intermediate Sight");
+        addEmptyLine(legend_para,1);
+        legend_para.add("FS : Fore Sight");
+        addEmptyLine(legend_para,1);
+        legend_para.add("HI : Height of Instrument");
+        addEmptyLine(legend_para,1);
+        legend_para.add("RL : Reduced Level");
+        subCatPart.add(legend_para);
     }
 
     private static void addEmptyLine(Paragraph paragraph, int number) {

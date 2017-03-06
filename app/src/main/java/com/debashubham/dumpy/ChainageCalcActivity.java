@@ -21,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.itextpdf.text.Anchor;
-import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chapter;
 import com.itextpdf.text.Document;
@@ -367,6 +366,7 @@ public class ChainageCalcActivity extends AppCompatActivity {
                     bs_list.put(counter,Double.parseDouble(bs.getText().toString()));
                     values_list.add(0);
                     last_entered.setText(getLastData(values_list.getLast()));
+                    rl.requestFocus();
                 }
                 else{
                     is_input.setEnabled(true);
@@ -394,6 +394,7 @@ public class ChainageCalcActivity extends AppCompatActivity {
                     chain_lcr.setEnabled(true);
                     values_list.add(2);
                     last_entered.setText(String.valueOf(chainage.getLast())+":"+String.valueOf(String.valueOf(chainage_points.getLast()))+" "+getLastData(values_list.getLast()));
+                    is.requestFocus();
                 }
                 bs.setText("");
                 bs.setEnabled(false);
@@ -447,6 +448,7 @@ public class ChainageCalcActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"RL entered!",Toast.LENGTH_SHORT).show();
                 values_list.add(1);
                 last_entered.setText(getLastData(values_list.getLast()));
+                is.requestFocus();
             }
         });
 
@@ -476,6 +478,7 @@ public class ChainageCalcActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"IS entered!",Toast.LENGTH_SHORT).show();
                 values_list.add(3);
                 last_entered.setText(String.valueOf(chainage.getLast())+":"+String.valueOf(String.valueOf(chainage_points.getLast()))+" "+getLastData(values_list.getLast()));
+                is.requestFocus();
             }
         });
 
@@ -502,6 +505,7 @@ public class ChainageCalcActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"FS entered!",Toast.LENGTH_SHORT).show();
                 values_list.add(4);
                 last_entered.setText(getLastData(values_list.getLast()));
+                bs.requestFocus();
             }
         });
         accept.setOnClickListener(new View.OnClickListener() {
@@ -665,21 +669,21 @@ public class ChainageCalcActivity extends AppCompatActivity {
 //        entry_table.setWidths(new float[]{0.25f,0.5f,0.5f,0.5f,0.5f,0.5f,0.5f,0.5f,0.5f,1.0f});
         PdfPCell id=new PdfPCell(new Phrase("Station Point"));
         id.setHorizontalAlignment(Element.ALIGN_CENTER);
-        PdfPCell left_row=new PdfPCell(new Phrase("CH. Left"));
+        PdfPCell left_row=new PdfPCell(new Phrase("CH. Left(m)"));
         left_row.setHorizontalAlignment(Element.ALIGN_CENTER);
-        PdfPCell center_row=new PdfPCell(new Phrase("CH. Center"));
+        PdfPCell center_row=new PdfPCell(new Phrase("CH. Center(m)"));
         center_row.setHorizontalAlignment(Element.ALIGN_CENTER);
-        PdfPCell right_row=new PdfPCell(new Phrase("CH. Right"));
+        PdfPCell right_row=new PdfPCell(new Phrase("CH. Right(m)"));
         right_row.setHorizontalAlignment(Element.ALIGN_CENTER);
-        PdfPCell bs=new PdfPCell(new Phrase("BS"));
+        PdfPCell bs=new PdfPCell(new Phrase("BS(m)"));
         bs.setHorizontalAlignment(Element.ALIGN_CENTER);
-        PdfPCell is=new PdfPCell(new Phrase("IS"));
+        PdfPCell is=new PdfPCell(new Phrase("IS(m)"));
         is.setHorizontalAlignment(Element.ALIGN_CENTER);
-        PdfPCell fs=new PdfPCell(new Phrase("FS"));
+        PdfPCell fs=new PdfPCell(new Phrase("FS(m)"));
         fs.setHorizontalAlignment(Element.ALIGN_CENTER);
-        PdfPCell hi=new PdfPCell(new Phrase("HI"));
+        PdfPCell hi=new PdfPCell(new Phrase("HI(m)"));
         hi.setHorizontalAlignment(Element.ALIGN_CENTER);
-        PdfPCell rl=new PdfPCell(new Phrase("RL"));
+        PdfPCell rl=new PdfPCell(new Phrase("RL(m)"));
         rl.setHorizontalAlignment(Element.ALIGN_CENTER);
         PdfPCell remarks=new PdfPCell(new Phrase("REMARKS"));
         remarks.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -802,7 +806,23 @@ public class ChainageCalcActivity extends AppCompatActivity {
             check_para.setSpacingBefore(20);
             check_para.add("Check Fail!");
         }
+        addEmptyLine(check_para,1);
+        check_para.add("_______________________________________________________");
         subCatPart.add(check_para);
+        Paragraph legend_para=new Paragraph("LEGEND:",subFont);
+        addEmptyLine(legend_para,1);
+        legend_para.add("BS : Back Sight");
+        addEmptyLine(legend_para,1);
+        legend_para.add("IS : Intermediate Sight");
+        addEmptyLine(legend_para,1);
+        legend_para.add("FS : Fore Sight");
+        addEmptyLine(legend_para,1);
+        legend_para.add("HI : Height of Instrument");
+        addEmptyLine(legend_para,1);
+        legend_para.add("RL : Reduced Level");
+        addEmptyLine(legend_para,1);
+        legend_para.add("CH. : Chainage");
+        subCatPart.add(legend_para);
     }
 
     private static void addEmptyLine(Paragraph paragraph, int number) {

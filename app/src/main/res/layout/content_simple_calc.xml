@@ -29,7 +29,7 @@
     <EditText
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
+        android:inputType="numberSigned|numberDecimal"
         android:ems="10"
         android:id="@+id/BS"
         android:textAlignment="center"
@@ -62,7 +62,7 @@
     <EditText
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
+        android:inputType="numberSigned|numberDecimal"
         android:ems="10"
         android:textAlignment="center"
         android:id="@+id/RL"
@@ -84,7 +84,7 @@
     <EditText
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
+        android:inputType="numberSigned|numberDecimal"
         android:ems="10"
         android:textAlignment="center"
         android:id="@+id/IS"
@@ -130,7 +130,7 @@
     <EditText
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
+        android:inputType="numberSigned|numberDecimal"
         android:ems="10"
         android:textAlignment="center"
         android:id="@+id/FS"
